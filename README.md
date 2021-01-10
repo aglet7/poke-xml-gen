@@ -1,2 +1,5 @@
 # poke-xml-gen
-Python 
+Python code for generating xml file for Cockatrice
+
+Required modules:
+```pokemontcgsdk```
