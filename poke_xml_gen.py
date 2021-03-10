@@ -2,7 +2,7 @@ from pokemontcgsdk import *
 import os
 
 def write_set(f, s):
-    name = s.ptcgo_code
+    name = s.code.upper()
     long_name = s.name
     date = s.release_date
     series = s.series
@@ -18,10 +18,17 @@ def write_card(f, c):
     name = c.name
     print(name)
     picurl = c.image_url_hi_res
-    set_name = c.set_code
+    set_name = c.set_code.upper()
     f.write('\t\t<card>\n>')
-    f.write('\t\t\t<name>%s</name>\n' %name)
+    f.write('\t\t\t<name>%s-%s</name>\n' %(name, set_name))
     f.write('\t\t\t<set picurl="%s">%s</set>\n' %(picurl, set_name))
+    f.write('\t\t\t<color>Water</color>\n')
+    f.write('\t\t\t<manacost></manacost>\n')
+    f.write('\t\t\t<cmc></cmc>\n')
+    f.write('\t\t\t<type>Pokemon - Stage 1</type>\n')
+    f.write('\t\t\t<tablerow>0</tablerow>\n')
+    f.write('\t\t\t<text></text>\n')
+    f.write('\t\t\t<font></font>\n')
     f.write('\t\t</card>\n>')
 
 def main():
@@ -29,13 +36,14 @@ def main():
 
     sets = Set.all()
     cards = Card.all()
+    print('Cards loaded.')
 
     fp = 'poketcg.xml'
     if os.path.exists(fp):
         os.remove(fp)
     with open(fp, 'x', encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-        f.write('<cockatrice_carddatabase version="4">\n')
+        f.write('<cockatrice_carddatabase version="3">\n')
         f.write('\t<sets>\n')
         print('Writing Sets...')
         for s in sets:
